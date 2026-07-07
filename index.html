@@ -4,1123 +4,1007 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adam Pham — ePortfolio | USQ</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════════════ */
-:root{
-  --navy:#0a1628;
-  --navy2:#0f2040;
-  --navy3:#162a4a;
-  --teal:#00c6e0;
-  --teal2:#00e5ff;
-  --teal3:rgba(0,198,224,0.12);
-  --gold:#e9c46a;
-  --rose:#f4845f;
-  --white:#ffffff;
-  --muted:rgba(255,255,255,0.55);
-  --muted2:rgba(255,255,255,0.35);
-  --glass:rgba(255,255,255,0.05);
-  --glass2:rgba(255,255,255,0.08);
-  --border:rgba(255,255,255,0.08);
-  --border2:rgba(0,198,224,0.25);
+:root {
+  --navy: #0d1b2a;
+  --navy-mid: #1b2d42;
+  --teal: #00b4d8;
+  --teal-light: #90e0ef;
+  --gold: #e9c46a;
+  --cream: #f8f5f0;
+  --white: #ffffff;
+  --muted: #8fa3b8;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.09);
+  --green: #2dd4bf;
 }
-
-/* ═══════════════════════════════════════════════════
-   BASE
-═══════════════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--navy);
-  color:var(--white);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
 
-/* ═══════════════════════════════════════════════════
-   ANIMATED GRADIENT MESH BACKGROUND
-═══════════════════════════════════════════════════ */
-#bg-mesh{
-  position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 20%,rgba(0,100,160,0.25) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%,rgba(0,198,224,0.12) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 40% at 60% 10%,rgba(233,196,106,0.06) 0%,transparent 50%),
-    linear-gradient(160deg,#050d1a 0%,#0a1628 40%,#0d1e35 70%,#071220 100%);
-  animation:meshShift 18s ease-in-out infinite alternate;
-}
-@keyframes meshShift{
-  0%  {background-position:0% 0%,100% 100%,60% 10%;}
-  33% {background-position:30% 20%,70% 80%,40% 30%;}
-  66% {background-position:60% 40%,40% 60%,70% 20%;}
-  100%{background-position:100% 60%,0% 40%,50% 50%;}
-}
+/* ── CANVAS ── */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
-/* Particle canvas */
-#bg-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;}
+/* ── PROGRESS ── */
+#prog{position:fixed;top:64px;left:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold));z-index:200;transition:width .1s;}
 
-/* Floating geometric shapes */
-.geo-shape{
-  position:fixed;z-index:1;pointer-events:none;
-  border:1px solid rgba(0,198,224,0.07);
-  border-radius:4px;
-  animation:geoFloat linear infinite;
-}
-@keyframes geoFloat{
-  0%  {transform:translateY(0) rotate(0deg);  opacity:0.4;}
-  50% {opacity:0.15;}
-  100%{transform:translateY(-100vh) rotate(360deg); opacity:0;}
-}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,27,42,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--card-border);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;cursor:pointer;color:var(--white);}
+.nav-logo span{color:var(--teal);}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links li a{display:block;padding:8px 14px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;border-radius:6px;}
+.nav-links li a:hover,.nav-links li a.active{color:var(--teal);background:rgba(0,180,216,0.08);}
 
-/* ═══════════════════════════════════════════════════
-   SCROLL PROGRESS
-═══════════════════════════════════════════════════ */
-#prog{
-  position:fixed;top:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--teal),var(--gold),var(--rose));
-  z-index:300;transition:width .1s;box-shadow:0 0 8px var(--teal);
-}
-
-/* ═══════════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════════ */
-nav{
-  position:fixed;top:2px;left:0;right:0;z-index:200;
-  height:62px;padding:0 52px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(5,13,26,0.75);
-  backdrop-filter:blur(24px) saturate(1.4);
-  border-bottom:1px solid var(--border);
-  transition:background .3s;
-}
-nav.scrolled{background:rgba(5,13,26,0.92);}
-.nav-logo{
-  font-family:'Playfair Display',serif;
-  font-size:20px;font-weight:700;
-  cursor:pointer;color:var(--white);
-  letter-spacing:-.01em;
-}
-.nav-logo span{color:var(--teal);text-shadow:0 0 20px rgba(0,198,224,0.5);}
-.nav-links{display:flex;gap:2px;list-style:none;}
-.nav-links li a{
-  display:block;padding:7px 13px;
-  color:var(--muted);text-decoration:none;
-  font-size:11px;font-weight:600;
-  letter-spacing:.07em;text-transform:uppercase;
-  transition:all .2s;border-radius:6px;
-  position:relative;
-}
-.nav-links li a::after{
-  content:'';position:absolute;bottom:3px;left:13px;right:13px;
-  height:1px;background:var(--teal);
-  transform:scaleX(0);transition:transform .25s;
-}
-.nav-links li a:hover{color:var(--white);}
-.nav-links li a:hover::after,.nav-links li a.active::after{transform:scaleX(1);}
-.nav-links li a.active{color:var(--teal);}
-
-/* ═══════════════════════════════════════════════════
-   PAGES
-═══════════════════════════════════════════════════ */
-.page{
-  position:relative;z-index:2;
-  min-height:100vh;
-  display:none;flex-direction:column;
-}
+/* ── PAGES ── */
+.page{position:relative;z-index:1;min-height:100vh;display:none;flex-direction:column;}
 .page.active{display:flex;}
-.page-enter{animation:pageIn .5s cubic-bezier(.22,1,.36,1) both;}
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(16px);}
-  to{opacity:1;transform:translateY(0);}
-}
 
-/* ═══════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════ */
-.hero{
-  position:relative;min-height:100vh;
-  display:flex;align-items:center;overflow:hidden;
+/* ── HERO PHOTO OVERLAY ── */
+.photo-hero{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
 }
-.hero-photo{
+.photo-hero-bg{
   position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  filter:brightness(0.2) saturate(0.5);
-  transform:scale(1.05);
-  animation:heroZoom 20s ease-in-out infinite alternate;
+  background:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.28) saturate(0.6);
+  z-index:0;
 }
-@keyframes heroZoom{
-  from{transform:scale(1.05) translateX(0);}
-  to{transform:scale(1.12) translateX(-1%);}
-}
-.hero-overlay{
+.photo-hero-overlay{
   position:absolute;inset:0;
-  background:
-    linear-gradient(160deg,rgba(5,13,26,0.94) 0%,rgba(10,22,40,0.75) 50%,rgba(0,80,120,0.35) 100%);
+  background:linear-gradient(135deg,rgba(13,27,42,0.85) 0%,rgba(13,27,42,0.4) 60%,rgba(0,100,140,0.3) 100%);
+  z-index:1;
 }
-.hero-glow{
-  position:absolute;
-  width:600px;height:600px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(0,198,224,0.08) 0%,transparent 70%);
-  top:-100px;right:-100px;
-  animation:glowPulse 6s ease-in-out infinite;
+.photo-hero-content{position:relative;z-index:2;padding:120px 80px 80px;max-width:1100px;margin:0 auto;width:100%;}
+
+/* ── ABOUT PHOTO ── */
+.about-photo-bg{
+  background:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.22) saturate(0.5);
 }
-@keyframes glowPulse{
-  0%,100%{transform:scale(1);opacity:0.6;}
-  50%{transform:scale(1.15);opacity:1;}
+.career-photo-bg{
+  background:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.22) saturate(0.5);
 }
-.hero-content{
-  position:relative;z-index:3;
-  padding:110px 80px 80px;
-  max-width:1100px;margin:0 auto;width:100%;
+.skills-photo-bg{
+  background:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.22) saturate(0.5);
+}
+.contact-photo-bg{
+  background:url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.22) saturate(0.5);
+}
+.reflection-photo-bg{
+  background:url('https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1600&q=80') center/cover no-repeat;
+  filter:brightness(0.22) saturate(0.5);
 }
 
-/* ─── Hero grid ─── */
-.hero-grid{
-  display:grid;
-  grid-template-columns:1fr 380px;
-  gap:60px;align-items:center;
-}
-.hero-right{display:flex;flex-direction:column;gap:16px;}
+/* ── SECTION WRAPPER ── */
+.section-wrap{max-width:1100px;margin:0 auto;padding:100px 80px;width:100%;position:relative;z-index:2;}
 
-/* ─── Eyebrow ─── */
+/* ── TYPOGRAPHY ── */
 .eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
-.eyebrow-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--teal);
-  box-shadow:0 0 8px var(--teal);
-  animation:dotPulse 2s infinite;
-}
-@keyframes dotPulse{
-  0%,100%{box-shadow:0 0 6px var(--teal);}
-  50%{box-shadow:0 0 16px var(--teal),0 0 32px rgba(0,198,224,0.3);}
-}
-.eyebrow-pill{
-  background:rgba(0,198,224,0.1);
-  border:1px solid rgba(0,198,224,0.3);
-  color:var(--teal);font-size:10px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
-  padding:5px 14px;border-radius:20px;
-}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;}
+.eyebrow-pill{background:rgba(0,180,216,0.12);border:1px solid rgba(0,180,216,0.3);color:var(--teal);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:20px;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,82px);font-weight:900;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;}
+.page-title .outline{color:transparent;-webkit-text-stroke:1.5px var(--teal);}
+.page-title .gold{color:var(--gold);}
+.page-subtitle{font-size:17px;color:var(--muted);line-height:1.7;max-width:560px;margin-bottom:40px;}
+.section-label-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.sec-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:.1em;}
+.sec-tag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);}
+.sec-line{flex:1;height:1px;background:var(--card-border);max-width:60px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;line-height:1.2;margin-bottom:14px;}
+.sec-title .hl{color:var(--teal);}
+.sec-intro{font-size:15px;color:var(--muted);line-height:1.7;max-width:580px;margin-bottom:48px;}
 
-/* ─── Page title ─── */
-.page-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(52px,7vw,96px);
-  font-weight:900;line-height:1.0;
-  letter-spacing:-.025em;margin-bottom:22px;
-}
-.page-title .stroke{
-  color:transparent;
-  -webkit-text-stroke:2px var(--teal);
-  filter:drop-shadow(0 0 12px rgba(0,198,224,0.4));
-}
-.page-title .gold{
-  color:var(--gold);
-  text-shadow:0 0 30px rgba(233,196,106,0.3);
-}
-.page-title .rose{color:var(--rose);}
-.page-subtitle{
-  font-size:16px;color:var(--muted);
-  line-height:1.75;max-width:520px;margin-bottom:38px;
-}
-.page-subtitle strong{color:rgba(255,255,255,.88);}
-
-/* ─── Typed text ─── */
-.typed-wrap{
-  font-size:18px;font-weight:500;
-  color:var(--teal);margin-bottom:32px;
-  min-height:28px;
-}
-.typed-cursor{
-  display:inline-block;
-  width:2px;height:1.1em;
-  background:var(--teal);
-  margin-left:2px;
-  animation:blink .8s infinite;
-  vertical-align:middle;
-}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-
-/* ─── Buttons ─── */
-.btn-row{display:flex;gap:12px;flex-wrap:wrap;}
-.btn-p{
-  background:var(--teal);color:var(--navy);
-  padding:13px 28px;border-radius:6px;
-  font-size:13px;font-weight:700;
-  text-decoration:none;transition:all .25s;
-  cursor:pointer;border:none;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.04em;text-transform:uppercase;
-  box-shadow:0 4px 20px rgba(0,198,224,0.25);
-}
-.btn-p:hover{
-  background:var(--teal2);transform:translateY(-2px);
-  box-shadow:0 8px 28px rgba(0,198,224,.45);
-}
-.btn-o{
-  border:1px solid rgba(255,255,255,.2);
-  color:var(--muted);padding:13px 28px;border-radius:6px;
-  font-size:13px;font-weight:500;
-  text-decoration:none;transition:all .25s;
-  cursor:pointer;background:none;
-  font-family:'DM Sans',sans-serif;letter-spacing:.04em;text-transform:uppercase;
-}
-.btn-o:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
-
-/* ─── Stat band ─── */
-.stat-band{
-  display:flex;gap:36px;margin-top:52px;
-  padding-top:32px;border-top:1px solid var(--border);
-  flex-wrap:wrap;
-}
-.stat-item{}
-.stat-num{
-  font-family:'Playfair Display',serif;
-  font-size:34px;font-weight:700;line-height:1;
-  color:var(--white);
-}
-.stat-num span{color:var(--teal);text-shadow:0 0 16px rgba(0,198,224,0.4);}
-.stat-label{
-  font-size:9px;color:var(--muted2);
-  margin-top:5px;text-transform:uppercase;letter-spacing:.12em;
-}
-
-/* ─── Hero info card ─── */
-.hero-card{
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:14px;padding:24px;
-  backdrop-filter:blur(12px);
-}
-.hero-card-title{
-  font-size:10px;color:var(--teal);
-  text-transform:uppercase;letter-spacing:.14em;
-  font-weight:700;margin-bottom:14px;
-}
-.hero-info-row{
-  display:flex;gap:10px;align-items:flex-start;
-  padding:10px 0;border-bottom:1px solid var(--border);
-}
-.hero-info-row:last-child{border-bottom:none;}
-.hero-info-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
-.hero-info-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
-.hero-info-val{font-size:13px;color:rgba(255,255,255,.82);}
-
-/* ─── Tags ─── */
-.tag{
-  display:inline-block;
-  background:rgba(0,198,224,0.08);
-  border:1px solid rgba(0,198,224,0.2);
-  color:var(--teal);font-size:10px;font-weight:600;
-  padding:4px 12px;border-radius:20px;
-  margin:3px 3px 3px 0;letter-spacing:.04em;
-  transition:all .2s;
-}
-.tag:hover{background:rgba(0,198,224,0.15);border-color:var(--teal);}
-
-/* ═══════════════════════════════════════════════════
-   SECTIONS
-═══════════════════════════════════════════════════ */
-.section-wrap{
-  max-width:1100px;margin:0 auto;
-  padding:90px 80px;width:100%;
-  position:relative;z-index:2;
-}
-
-.section-label-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.sec-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:.12em;font-weight:700;}
-.sec-line{width:40px;height:1px;background:var(--border);}
-.sec-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);}
-
-.sec-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(28px,3.5vw,46px);
-  font-weight:700;line-height:1.15;margin-bottom:14px;
-}
-.sec-title .hl{
-  color:var(--teal);
-  text-shadow:0 0 20px rgba(0,198,224,0.3);
-}
-.sec-intro{font-size:15px;color:var(--muted);line-height:1.75;max-width:580px;margin-bottom:44px;}
-
-/* ═══════════════════════════════════════════════════
-   GLASS CARDS
-═══════════════════════════════════════════════════ */
-.card{
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:14px;padding:28px;
-  transition:all .3s cubic-bezier(.22,1,.36,1);
-  position:relative;overflow:hidden;
-  backdrop-filter:blur(8px);
-}
-.card::before{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--teal),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.card::after{
-  content:'';position:absolute;
-  inset:0;border-radius:14px;
-  background:radial-gradient(circle at 50% 0%,rgba(0,198,224,0.06) 0%,transparent 60%);
-  opacity:0;transition:opacity .3s;
-}
-.card:hover{
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(0,198,224,0.3);
-  transform:translateY(-5px);
-  box-shadow:0 20px 48px rgba(0,0,0,.3),0 0 0 1px rgba(0,198,224,0.1);
-}
-.card:hover::before,.card:hover::after{opacity:1;}
-.card-icon{font-size:28px;margin-bottom:14px;display:block;}
-.card-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:9px;}
+/* ── CARDS ── */
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:26px 28px;transition:all .3s;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent);opacity:0;transition:opacity .3s;}
+.card:hover{background:rgba(255,255,255,0.07);border-color:rgba(0,180,216,0.25);transform:translateY(-3px);}
+.card:hover::before{opacity:1;}
+.card-icon{font-size:26px;margin-bottom:12px;display:block;}
+.card-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:8px;}
 .card-body{font-size:13px;line-height:1.75;color:var(--muted);}
 .card-body strong{color:rgba(255,255,255,.85);}
-.card-link{font-size:11px;color:var(--teal);font-weight:700;margin-top:16px;display:block;letter-spacing:.06em;}
 
-/* ─── Featured card ─── */
-.card-featured{
-  background:linear-gradient(135deg,rgba(0,198,224,0.1) 0%,rgba(0,120,180,0.06) 100%);
-  border-color:rgba(0,198,224,0.3);
-}
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;}
 
-/* ─── Numbered card ─── */
-.ncard{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:14px;padding:28px;position:relative;overflow:hidden;
-  transition:all .3s;
-}
-.ncard:hover{transform:translateY(-4px);border-color:rgba(0,198,224,0.3);}
-.ncard-num{
-  font-family:'DM Mono',monospace;
-  font-size:48px;font-weight:700;
-  color:rgba(0,198,224,0.12);
-  position:absolute;top:16px;right:20px;
-  line-height:1;
-  transition:color .3s;
-}
-.ncard:hover .ncard-num{color:rgba(0,198,224,0.25);}
+/* ── STAT BAND ── */
+.stat-band{display:flex;gap:48px;margin-top:60px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1;}
+.stat-num span{color:var(--teal);}
+.stat-label{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.08em;}
 
-/* ═══════════════════════════════════════════════════
-   GRIDS
-═══════════════════════════════════════════════════ */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+/* ── CTA BUTTONS ── */
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px;}
+.btn-p{background:var(--teal);color:var(--navy);padding:12px 26px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;letter-spacing:.02em;}
+.btn-p:hover{background:var(--teal-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,180,216,.35);}
+.btn-o{border:1px solid var(--card-border);color:var(--muted);padding:12px 26px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer;background:none;font-family:'DM Sans',sans-serif;}
+.btn-o:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
 
-/* ═══════════════════════════════════════════════════
-   DIVIDERS
-═══════════════════════════════════════════════════ */
-.divider{
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,198,224,0.2),transparent);
-  margin:52px 0;position:relative;
-}
-.divider::after{
-  content:'◆';
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  color:var(--teal);font-size:8px;
-  background:var(--navy);padding:0 12px;
-  opacity:0.5;
-}
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--teal),rgba(0,180,216,0.1));}
+.tl-item{position:relative;margin-bottom:36px;}
+.tl-dot{position:absolute;left:-36px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(0,180,216,.2);}
+.tl-year{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:.08em;margin-bottom:6px;}
+.tl-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.tl-place{font-size:13px;color:var(--gold);margin-bottom:8px;}
+.tl-desc{font-size:13px;color:var(--muted);line-height:1.7;}
 
-/* ═══════════════════════════════════════════════════
-   SECTION BANDING
-═══════════════════════════════════════════════════ */
-.band-dark{
-  background:
-    radial-gradient(ellipse 70% 60% at 90% 50%,rgba(0,198,224,0.05) 0%,transparent 60%),
-    linear-gradient(180deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:80px 0;position:relative;z-index:2;
-}
+/* ── SKILL BAR ── */
+.skill-bar-wrap{margin-bottom:20px;}
+.skill-bar-top{display:flex;justify-content:space-between;margin-bottom:6px;}
+.skill-name{font-size:13px;font-weight:500;color:rgba(255,255,255,.8);}
+.skill-pct{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);}
+.skill-track{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-light));border-radius:2px;width:0;transition:width 1.2s ease;}
 
-.band-accent{
-  background:linear-gradient(90deg,rgba(0,198,224,0.04) 0%,transparent 50%,rgba(233,196,106,0.03) 100%);
-  border-top:1px solid var(--border);
-  padding:80px 0;position:relative;z-index:2;
-}
-
-/* ═══════════════════════════════════════════════════
-   TIMELINE
-═══════════════════════════════════════════════════ */
-.timeline{position:relative;padding-left:36px;}
-.timeline::before{
-  content:'';position:absolute;left:4px;top:8px;bottom:8px;
-  width:1px;
-  background:linear-gradient(180deg,var(--teal) 0%,rgba(0,198,224,0.1) 100%);
-}
-.tl-item{position:relative;margin-bottom:40px;}
-.tl-dot{
-  position:absolute;left:-38px;top:4px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--teal);
-  box-shadow:0 0 0 3px rgba(0,198,224,.15),0 0 12px rgba(0,198,224,.4);
-}
-.tl-year{
-  font-family:'DM Mono',monospace;font-size:10px;
-  color:var(--teal);letter-spacing:.1em;margin-bottom:6px;font-weight:700;
-}
-.tl-title{font-size:16px;font-weight:600;color:var(--white);margin-bottom:3px;}
-.tl-place{font-size:12px;color:var(--gold);margin-bottom:8px;font-weight:600;}
-.tl-desc{font-size:13px;color:var(--muted);line-height:1.72;}
-
-/* ═══════════════════════════════════════════════════
-   SKILL BARS
-═══════════════════════════════════════════════════ */
-.skill-wrap{margin-bottom:22px;}
-.skill-top{display:flex;justify-content:space-between;margin-bottom:7px;align-items:center;}
-.skill-name{font-size:13px;font-weight:500;color:rgba(255,255,255,.82);}
-.skill-pct{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);font-weight:700;}
-.skill-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;position:relative;}
-.skill-fill{
-  height:100%;width:0;
-  background:linear-gradient(90deg,var(--teal),var(--teal2));
-  border-radius:2px;
-  transition:width 1.4s cubic-bezier(.22,1,.36,1);
-  box-shadow:0 0 8px rgba(0,198,224,0.4);
-  position:relative;
-}
-.skill-fill::after{
-  content:'';position:absolute;right:0;top:0;bottom:0;width:4px;
-  background:rgba(255,255,255,0.7);border-radius:2px;
-}
-
-/* ═══════════════════════════════════════════════════
-   STEP LIST
-═══════════════════════════════════════════════════ */
-.step{display:flex;gap:18px;margin-bottom:26px;align-items:flex-start;}
-.step-num{
-  width:36px;height:36px;border-radius:50%;flex-shrink:0;
-  background:rgba(0,198,224,.1);
-  border:1px solid rgba(0,198,224,.35);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'DM Mono',monospace;font-size:12px;color:var(--teal);
-  font-weight:700;box-shadow:0 0 12px rgba(0,198,224,.15);
-}
-.step-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:5px;}
-.step-desc{font-size:13px;color:var(--muted);line-height:1.72;}
-
-/* ═══════════════════════════════════════════════════
-   CALLOUT
-═══════════════════════════════════════════════════ */
-.callout{
-  background:rgba(0,198,224,.07);
-  border-left:3px solid var(--teal);
-  border-radius:0 12px 12px 0;
-  padding:20px 24px;margin:24px 0;
-  box-shadow:inset 0 0 20px rgba(0,198,224,0.04);
-}
-.callout p{font-size:15px;font-style:italic;color:rgba(255,255,255,.8);line-height:1.72;}
-
-/* ═══════════════════════════════════════════════════
-   LENS TABS
-═══════════════════════════════════════════════════ */
-.lens-tabs{
-  display:flex;gap:0;margin-bottom:24px;
-  border:1px solid var(--border);border-radius:10px;overflow:hidden;
-}
-.lens-tab{
-  flex:1;padding:14px 16px;background:transparent;border:none;
-  color:var(--muted);font-family:'DM Sans',sans-serif;
-  font-size:12px;font-weight:600;cursor:pointer;
-  transition:all .2s;border-right:1px solid var(--border);text-align:center;
-  letter-spacing:.04em;
-}
+/* ── LENS TABS ── */
+.lens-tabs{display:flex;gap:0;margin-bottom:28px;border:1px solid var(--card-border);border-radius:8px;overflow:hidden;}
+.lens-tab{flex:1;padding:13px 16px;background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;border-right:1px solid var(--card-border);text-align:center;}
 .lens-tab:last-child{border-right:none;}
-.lens-tab.active{background:rgba(0,198,224,.1);color:var(--teal);}
-.lens-tab:hover:not(.active){background:var(--glass2);color:rgba(255,255,255,.7);}
+.lens-tab.active{background:rgba(0,180,216,.12);color:var(--teal);}
+.lens-tab:hover:not(.active){background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);}
 .lens-panel{display:none;}
 .lens-panel.active{display:block;}
-.lens-inner{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:12px;padding:30px;backdrop-filter:blur(8px);
-}
 
-/* ═══════════════════════════════════════════════════
-   RISK ITEMS
-═══════════════════════════════════════════════════ */
-.risk{
-  display:flex;gap:16px;
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:10px;padding:20px 22px;margin-bottom:12px;
-  align-items:flex-start;transition:all .25s;
-  border-left:3px solid var(--teal);border-radius:0 10px 10px 0;
-}
-.risk:hover{background:var(--glass2);transform:translateX(4px);}
-.risk-icon{font-size:20px;flex-shrink:0;}
+/* ── RISK ITEM ── */
+.risk-item{display:flex;gap:16px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px 22px;margin-bottom:14px;align-items:flex-start;transition:all .2s;}
+.risk-item:hover{border-color:rgba(0,180,216,.25);background:rgba(255,255,255,.05);}
+.risk-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
 .risk-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;}
 .risk-desc{font-size:13px;color:var(--muted);line-height:1.65;}
 
-/* ═══════════════════════════════════════════════════
-   AI BOX
-═══════════════════════════════════════════════════ */
-.ai-box{
-  background:rgba(233,196,106,.06);
-  border:1px solid rgba(233,196,106,.2);
-  border-radius:12px;padding:26px 28px;margin-bottom:44px;
-  position:relative;overflow:hidden;
-}
-.ai-box::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--gold),transparent);
-}
-.ai-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(233,196,106,.12);border:1px solid rgba(233,196,106,.3);
-  color:var(--gold);font-size:10px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:4px 12px;border-radius:20px;margin-bottom:12px;
-}
-.ai-text{font-size:13px;line-height:1.82;color:rgba(255,255,255,.7);}
+/* ── STEPS ── */
+.step{display:flex;gap:18px;align-items:flex-start;margin-bottom:24px;}
+.step-num{width:34px;height:34px;border-radius:50%;background:rgba(0,180,216,.15);border:1px solid rgba(0,180,216,.4);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;color:var(--teal);flex-shrink:0;}
+.step-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:5px;}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.7;}
 
-/* ═══════════════════════════════════════════════════
-   REFERENCES
-═══════════════════════════════════════════════════ */
-.ref-box{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:12px;padding:28px;
-}
-.ref-item{
-  padding:12px 0;border-bottom:1px solid var(--border);
-  font-size:12px;color:var(--muted);
-  line-height:1.72;font-family:'DM Mono',monospace;
-}
-.ref-item:last-child{border-bottom:none;}
-.ref-item em{color:rgba(255,255,255,.62);font-style:italic;}
+/* ── CALLOUT ── */
+.callout{background:rgba(0,180,216,.08);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:18px 22px;margin:20px 0;}
+.callout-text{font-size:15px;font-style:italic;color:rgba(255,255,255,.8);line-height:1.7;}
 
-/* ═══════════════════════════════════════════════════
-   CONTACT
-═══════════════════════════════════════════════════ */
-.contact-item{
-  display:flex;gap:14px;align-items:flex-start;
-  padding:15px 0;border-bottom:1px solid var(--border);
-}
-.contact-item:last-child{border-bottom:none;}
-.contact-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
-.contact-label{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;}
-.contact-val{font-size:14px;color:var(--white);font-weight:500;}
-
-/* ─── Form ─── */
-.form-group{margin-bottom:16px;}
-.form-label{display:block;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;}
-.form-input,.form-textarea{
-  width:100%;background:rgba(255,255,255,.05);
-  border:1px solid var(--border);border-radius:8px;
-  padding:12px 16px;color:var(--white);
-  font-family:'DM Sans',sans-serif;font-size:14px;
-  outline:none;transition:border-color .2s, box-shadow .2s;
-}
-.form-input:focus,.form-textarea:focus{
-  border-color:var(--teal);
-  box-shadow:0 0 0 3px rgba(0,198,224,0.1);
-}
+/* ── CONTACT FORM ── */
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+.form-input,.form-textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--card-border);border-radius:8px;padding:12px 16px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.form-input:focus,.form-textarea:focus{border-color:var(--teal);}
 .form-textarea{min-height:120px;resize:vertical;}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.2);}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.25);}
 
-/* ─── Value item ─── */
-.value-item{display:flex;gap:16px;align-items:flex-start;margin-bottom:26px;}
-.value-icon{
-  width:40px;height:40px;border-radius:10px;flex-shrink:0;
-  background:rgba(0,198,224,.1);border:1px solid rgba(0,198,224,.2);
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  box-shadow:0 0 12px rgba(0,198,224,.1);
-}
-.value-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:5px;}
-.value-desc{font-size:13px;color:var(--muted);line-height:1.65;}
+/* ── REF LIST ── */
+.ref-item{padding:13px 0;border-bottom:1px solid var(--card-border);font-size:12px;color:var(--muted);line-height:1.7;font-family:'DM Mono',monospace;}
+.ref-item:last-child{border-bottom:none;}
+.ref-item em{color:rgba(255,255,255,.6);}
 
-/* ═══════════════════════════════════════════════════
-   MARKS BADGE
-═══════════════════════════════════════════════════ */
-.marks-badge{
-  display:inline-block;font-size:9px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.1em;
-  color:var(--teal);border:1px solid rgba(0,198,224,.4);
-  padding:2px 10px;border-radius:20px;margin-left:auto;
-  flex-shrink:0;
-}
+/* ── AI BADGE ── */
+.ai-box{background:rgba(233,196,106,.06);border:1px solid rgba(233,196,106,.2);border-radius:12px;padding:24px 28px;margin-bottom:40px;}
+.ai-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(233,196,106,.12);border:1px solid rgba(233,196,106,.3);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+.ai-text{font-size:13px;line-height:1.8;color:rgba(255,255,255,.7);}
 
-/* ═══════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════ */
-.page-footer{
-  position:relative;z-index:2;
-  border-top:1px solid var(--border);
-  padding:32px 80px;
-  display:flex;justify-content:space-between;align-items:center;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,0.2));
-}
-.footer-brand{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;}
-.footer-brand span{color:var(--teal);text-shadow:0 0 16px rgba(0,198,224,0.4);}
-.footer-info{font-size:11px;color:var(--muted2);line-height:1.85;text-align:right;}
+/* ── FOOTER ── */
+.page-footer{position:relative;z-index:2;border-top:1px solid var(--card-border);padding:32px 80px;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;}
+.footer-brand span{color:var(--teal);}
+.footer-info{font-size:11px;color:var(--muted);line-height:1.8;text-align:right;}
 
-/* ═══════════════════════════════════════════════════
-   SCROLL ANIMATIONS
-═══════════════════════════════════════════════════ */
-.fade-in{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
-.fade-in.visible{opacity:1;transform:translateY(0);}
-.fade-in-left{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease;}
-.fade-in-left.visible{opacity:1;transform:translateX(0);}
-
-/* Hero animations */
-.au{opacity:0;animation:fadeUp .7s forwards;}
-.au-1{animation-delay:.1s;}.au-2{animation-delay:.28s;}.au-3{animation-delay:.44s;}
-.au-4{animation-delay:.58s;}.au-5{animation-delay:.72s;}.au-6{animation-delay:.86s;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+.au{opacity:0;animation:fadeUp .7s forwards;}
+.au-1{animation-delay:.1s;} .au-2{animation-delay:.25s;} .au-3{animation-delay:.4s;}
+.au-4{animation-delay:.55s;} .au-5{animation-delay:.7s;} .au-6{animation-delay:.85s;}
+.fade-in{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
 
-/* ─── Profile avatar ─── */
-.avatar-ring{
-  width:100px;height:100px;border-radius:50%;
-  border:2px solid var(--teal);padding:3px;margin-bottom:20px;
-  box-shadow:0 0 24px rgba(0,198,224,0.3);
-}
-.avatar-placeholder{
-  width:92px;height:92px;border-radius:50%;
-  background:linear-gradient(135deg,var(--navy2),rgba(0,198,224,0.3));
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;
-}
+/* ── DIVIDER ── */
+.div{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--card-border),transparent);position:relative;z-index:1;}
 
-/* ─── Cert card ─── */
-.cert-card{
-  background:linear-gradient(135deg,rgba(0,198,224,0.06) 0%,rgba(0,198,224,0.02) 100%);
-  border:1px solid rgba(0,198,224,0.2);border-radius:12px;padding:22px;
-  transition:all .3s;
-}
-.cert-card:hover{transform:translateY(-4px);border-color:rgba(0,198,224,0.4);}
-.cert-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(0,198,224,0.12);border:1px solid rgba(0,198,224,0.25);
-  color:var(--teal);font-size:9px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:3px 10px;border-radius:20px;margin-bottom:10px;
-}
-.cert-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:5px;}
-.cert-body{font-size:12px;color:var(--muted);line-height:1.65;}
+/* ── ABOUT AVATAR ── */
+.avatar-ring{width:120px;height:120px;border-radius:50%;border:2px solid var(--teal);padding:3px;margin-bottom:24px;flex-shrink:0;}
+.avatar-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.avatar-placeholder{width:114px;height:114px;border-radius:50%;background:linear-gradient(135deg,var(--navy-mid),var(--teal));display:flex;align-items:center;justify-content:center;font-size:36px;}
 
-/* ─── Counter number ─── */
-.counter{
-  font-family:'Playfair Display',serif;
-  font-size:52px;font-weight:900;
-  color:var(--teal);line-height:1;
-  text-shadow:0 0 24px rgba(0,198,224,0.4);
-}
-.counter-label{font-size:12px;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.1em;}
+/* ── PROFILE ROW ── */
+.profile-row{display:flex;gap:40px;align-items:flex-start;margin-bottom:48px;}
 
-/* ─── Gradient text ─── */
-.grad-text{
-  background:linear-gradient(90deg,var(--teal),var(--teal2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text;
-}
+/* ── INTEREST TAG ── */
+.tag{display:inline-block;background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.25);color:var(--teal);font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;margin:4px 4px 4px 0;}
 
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════ */
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;}
-  .hero-right{display:none;}
-}
+/* ── CONTACT INFO ── */
+.contact-info-item{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--card-border);}
+.contact-info-item:last-child{border-bottom:none;}
+.contact-info-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.contact-info-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
+.contact-info-val{font-size:14px;color:var(--white);}
+
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
-  nav{padding:0 18px;}
-  .nav-links li a{padding:6px 8px;font-size:10px;}
-  .hero-content,.section-wrap,.page-footer{padding-left:22px;padding-right:22px;}
-  .page-title{font-size:46px;}
+  nav{padding:0 16px;}
+  .nav-links{gap:0;}
+  .nav-links li a{padding:8px 8px;font-size:10px;}
+  .photo-hero-content,.section-wrap,.page-footer{padding-left:20px;padding-right:20px;}
+  .page-title{font-size:42px;}
   .g2,.g3,.g4{grid-template-columns:1fr;}
   .stat-band{flex-wrap:wrap;gap:24px;}
-  .page-footer{flex-direction:column;gap:10px;text-align:center;}
+  .profile-row{flex-direction:column;}
+  .page-footer{flex-direction:column;gap:12px;text-align:center;}
   .footer-info{text-align:center;}
 }
 </style>
 </head>
 <body>
 
-<!-- BACKGROUND LAYERS -->
-<div id="bg-mesh"></div>
 <canvas id="bg-canvas"></canvas>
 <div id="prog"></div>
 
-<!-- NAV -->
-<nav id="navbar">
+<!-- ══ NAV ══ -->
+<nav>
   <div class="nav-logo" onclick="showPage('home')">Adam <span>Pham</span></div>
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a href="#" onclick="showPage('about')" id="nav-about">About Me</a></li>
     <li><a href="#" onclick="showPage('skills')" id="nav-skills">Competencies</a></li>
-    <li><a href="#" onclick="showPage('career')" id="nav-career">Career</a></li>
-    <li><a href="#" onclick="showPage('training')" id="nav-training">Training</a></li>
+    <li><a href="#" onclick="showPage('career')" id="nav-career">Career Journey</a></li>
     <li><a href="#" onclick="showPage('reflection')" id="nav-reflection">Reflection</a></li>
-    <li><a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+    <li><a href="#" onclick="showPage('contact')" id="nav-contact">Contact Me</a></li>
   </ul>
 </nav>
 
-<!-- ══ THIS PAGE: HOME ══ -->
-<div class="page active" id="page-home">
+<!-- ════════════════════════════════════════
      PAGE: HOME
-════════════════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="page active" id="page-home">
-  <div class="hero">
-    <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600&q=80');"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow au au-1">
-            <div class="eyebrow-dot"></div>
-            <div class="eyebrow-pill">University of Southern Queensland · T2 2026</div>
-          </div>
-          <h1 class="page-title au au-2">Adam<br><span class="stroke">Pham</span><br><span class="gold">ePortfolio</span></h1>
-          <div class="typed-wrap au au-3" id="typed-text"><span id="typed-output"></span><span class="typed-cursor"></span></div>
-          <p class="page-subtitle au au-3">
-            Bachelor of Business / Bachelor of Information Technology<br>
-            Major in <strong>Finance</strong> &amp; <strong>Artificial Intelligence &amp; Data Science</strong>
-          </p>
-          <div class="btn-row au au-4">
-            <button class="btn-p" onclick="showPage('about')">Explore Portfolio →</button>
-            <button class="btn-o" onclick="showPage('reflection')">CIS1000 Reflection</button>
-          </div>
-          <div class="stat-band au au-5">
-            <div class="stat-item"><div class="stat-num">u<span>1186826</span></div><div class="stat-label">Student ID</div></div>
-            <div class="stat-item"><div class="stat-num"><span>2</span></div><div class="stat-label">Degrees</div></div>
-            <div class="stat-item"><div class="stat-num"><span>2</span></div><div class="stat-label">Majors</div></div>
-            <div class="stat-item"><div class="stat-num"><span>2026</span></div><div class="stat-label">T2 Semester</div></div>
-          </div>
-        </div>
-        <div class="hero-right au au-4">
-          <div class="hero-card">
-            <div class="hero-card-title">📋 Student Profile</div>
-            <div class="hero-info-row"><div class="hero-info-icon">🎓</div><div><div class="hero-info-label">University</div><div class="hero-info-val">University of Southern Queensland</div></div></div>
-            <div class="hero-info-row"><div class="hero-info-icon">📚</div><div><div class="hero-info-label">Degree 1</div><div class="hero-info-val">Bachelor of Business — Finance</div></div></div>
-            <div class="hero-info-row"><div class="hero-info-icon">💻</div><div><div class="hero-info-label">Degree 2</div><div class="hero-info-val">Bachelor of IT — AI &amp; Data Science</div></div></div>
-            <div class="hero-info-row"><div class="hero-info-icon">📍</div><div><div class="hero-info-label">Location</div><div class="hero-info-val">Brisbane, Queensland, Australia</div></div></div>
-            <div class="hero-info-row"><div class="hero-info-icon">🎯</div><div><div class="hero-info-label">Goal</div><div class="hero-info-val">Data Scientist · Business Analyst</div></div></div>
-          </div>
-          <div class="hero-card">
-            <div class="hero-card-title">⚡ Tech Stack</div>
-            <div style="padding-top:4px;">
-              <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span>
-              <span class="tag">Matplotlib</span><span class="tag">Plotly</span><span class="tag">SQL</span>
-              <span class="tag">Scikit-learn</span><span class="tag">Power BI</span><span class="tag">Tableau</span>
-              <span class="tag">AWS</span><span class="tag">HTML/CSS</span><span class="tag">Git</span>
-            </div>
-          </div>
-        </div>
+  <div class="photo-hero">
+    <div class="photo-hero-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+
+      <div class="eyebrow au au-1">
+        <div class="eyebrow-dot"></div>
+        <div class="eyebrow-pill">University of Southern Queensland · T2 2026</div>
       </div>
+
+      <h1 class="page-title au au-2">
+        Adam<br>
+        <span class="outline">Pham</span><br>
+        <span class="gold">ePortfolio</span>
+      </h1>
+
+      <p class="page-subtitle au au-3">
+        Bachelor of Business / Bachelor of Information Technology<br>
+        Major in <strong style="color:rgba(255,255,255,.85)">Finance</strong> & <strong style="color:rgba(255,255,255,.85)">Artificial Intelligence & Data Science</strong><br>
+        Aspiring Data Scientist · Business Analyst
+      </p>
+
+      <div class="btn-row au au-4">
+        <button class="btn-p" onclick="showPage('about')">About Me →</button>
+        <button class="btn-o" onclick="showPage('reflection')">View Reflection</button>
+      </div>
+
+      <div class="stat-band au au-5">
+        <div><div class="stat-num">u<span>1186826</span></div><div class="stat-label">Student ID</div></div>
+        <div><div class="stat-num"><span>2</span></div><div class="stat-label">Double Degrees</div></div>
+        <div><div class="stat-num"><span>2</span></div><div class="stat-label">Majors</div></div>
+        <div><div class="stat-num"><span>2026</span></div><div class="stat-label">T2 Trimester</div></div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Quick nav -->
-  <div class="section-wrap" style="padding-top:72px;padding-bottom:80px;">
-    <div class="section-label-row fade-in"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">Portfolio Sections</span></div>
-    <h2 class="sec-title fade-in">Explore What's <span class="hl">Inside</span></h2>
-    <div class="g3 fade-in">
-      <div class="card" style="cursor:pointer;" onclick="showPage('about')"><span class="card-icon">👤</span><div class="card-title">About Me</div><div class="card-body">My background, values, passion for AI &amp; fintech, and the story behind my academic journey at USQ.</div><span class="card-link">Explore →</span></div>
-      <div class="card" style="cursor:pointer;" onclick="showPage('skills')"><span class="card-icon">⚡</span><div class="card-title">Professional Competencies</div><div class="card-body">Python, SQL, ML, data visualisation, financial modelling — technical and business skills built for industry roles.</div><span class="card-link">Explore →</span></div>
-      <div class="card" style="cursor:pointer;" onclick="showPage('career')"><span class="card-icon">🗺</span><div class="card-title">Career Journey</div><div class="card-body">Academic milestones, self-directed learning timeline, and my 12-month structured roadmap to a first industry role.</div><span class="card-link">Explore →</span></div>
-      <div class="card card-featured" style="cursor:pointer;" onclick="showPage('reflection')"><span class="card-icon">📝</span><div class="card-title">CIS1000 Reflection</div><div class="card-body">Assessment 1 — AI-powered inventory management analysis of GreenSprout Foods. Professional, societal &amp; ethical lens.</div><span class="card-link">Read Reflection →</span></div>
-      <div class="card" style="cursor:pointer;" onclick="showPage('training')"><span class="card-icon">🎓</span><div class="card-title">Recent Training</div><div class="card-body">Certifications, online courses, and self-directed learning programs completed alongside my formal degree.</div><span class="card-link">Explore →</span></div>
-      <div class="card" style="cursor:pointer;" onclick="showPage('contact')"><span class="card-icon">✉️</span><div class="card-title">Contact Me</div><div class="card-body">Open to academic collaboration, professional networking, and conversations about data science and fintech.</div><span class="card-link">Get in Touch →</span></div>
-    </div>
-  </div>
-
-  <!-- Counters band -->
-  <div class="band-dark">
-    <div class="section-wrap" style="padding:56px 80px;">
-      <div class="g4 fade-in" style="text-align:center;">
-        <div><div class="counter" id="c1">0</div><div class="counter-label">Months of Python Study</div></div>
-        <div><div class="counter" id="c2">0</div><div class="counter-label">Finance Concepts Mastered</div></div>
-        <div><div class="counter" id="c3">0</div><div class="counter-label">Data Projects Built</div></div>
-        <div><div class="counter" id="c4">0</div><div class="counter-label">Academic Modules Completed</div></div>
+  <!-- Quick nav cards -->
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap" style="padding-top:64px;padding-bottom:80px;">
+      <div class="g3 fade-in">
+        <div class="card" style="cursor:pointer;" onclick="showPage('about')">
+          <span class="card-icon">👤</span>
+          <div class="card-title">About Me</div>
+          <div class="card-body">My background, interests, values and the story behind my journey into AI, data science and business.</div>
+          <div style="margin-top:16px;font-size:12px;color:var(--teal);font-weight:600;">Explore →</div>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('skills')">
+          <span class="card-icon">⚡</span>
+          <div class="card-title">Professional Competencies</div>
+          <div class="card-body">Technical skills in Python, data visualisation, business analytics, and finance — built for industry.</div>
+          <div style="margin-top:16px;font-size:12px;color:var(--teal);font-weight:600;">Explore →</div>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('career')">
+          <span class="card-icon">🗺</span>
+          <div class="card-title">Career Journey</div>
+          <div class="card-body">My academic milestones, certifications pursued, and the 12-month roadmap toward my first industry role.</div>
+          <div style="margin-top:16px;font-size:12px;color:var(--teal);font-weight:600;">Explore →</div>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('reflection')">
+          <span class="card-icon">📝</span>
+          <div class="card-title">CIS1000 Reflection</div>
+          <div class="card-body">Assessment 1 — Digital disruption analysis of GreenSprout Foods through AI inventory management lens.</div>
+          <div style="margin-top:16px;font-size:12px;color:var(--teal);font-weight:600;">Explore →</div>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="showPage('contact')">
+          <span class="card-icon">✉️</span>
+          <div class="card-title">Contact Me</div>
+          <div class="card-body">Reach out for academic collaboration, professional networking, or any enquiries about my work.</div>
+          <div style="margin-top:16px;font-size:12px;color:var(--teal);font-weight:600;">Explore →</div>
+        </div>
+        <div class="card" style="background:rgba(0,180,216,0.06);border-color:rgba(0,180,216,0.2);">
+          <span class="card-icon">🎓</span>
+          <div class="card-title" style="color:var(--teal);">USQ Double Degree</div>
+          <div class="card-body">Bachelor of Business + Bachelor of IT · Finance major + AI & Data Science major · Toowoomba, QLD</div>
+          <div style="margin-top:16px;"><span class="tag">Fintech</span><span class="tag">Data Science</span><span class="tag">Business Analysis</span></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="page-footer">
     <div class="footer-brand">Adam <span>Pham</span></div>
-    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026<br>Bachelor of Business / Bachelor of IT · Finance &amp; AI &amp; Data Science</div>
+    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026</div>
   </div>
 </div>
+
+<!-- ════════════════════════════════════════
+     PAGE: ABOUT ME
+════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="photo-hero">
+    <div class="photo-hero-bg about-photo-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+      <div class="eyebrow au au-1"><div class="eyebrow-dot"></div><div class="eyebrow-pill">Personal Profile</div></div>
+      <h1 class="page-title au au-2">About <span class="outline">Me</span></h1>
+      <p class="page-subtitle au au-3">A driven student combining business strategy with data science — committed to building a career at the intersection of technology and finance.</p>
+      <div class="btn-row au au-4">
+        <button class="btn-p" onclick="showPage('skills')">My Skills →</button>
+        <button class="btn-o" onclick="showPage('career')">Career Journey</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap">
+
+      <!-- Profile -->
+      <div class="profile-row fade-in">
+        <div class="avatar-ring">
+          <div class="avatar-placeholder">🎓</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:6px;">Adam Pham</div>
+          <div style="font-size:14px;color:var(--teal);margin-bottom:4px;">Student ID: u1186826</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Bachelor of Business / Bachelor of IT · University of Southern Queensland</div>
+          <div><span class="tag">AI & Data Science</span><span class="tag">Finance</span><span class="tag">Business Analysis</span><span class="tag">Python</span><span class="tag">Fintech</span><span class="tag">Data Visualisation</span></div>
+        </div>
+      </div>
+
+      <div class="g2 fade-in" style="margin-bottom:40px;">
+        <div>
+          <div class="section-label-row"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">My Story</span></div>
+          <h2 class="sec-title">Who I <span class="hl">Am</span></h2>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:16px;">I am a student at the University of Southern Queensland, enrolled in a double degree combining <strong style="color:var(--white)">Bachelor of Business</strong> and <strong style="color:var(--white)">Bachelor of Information Technology</strong>, with majors in Finance and Artificial Intelligence & Data Science.</p>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:16px;">Born in 2007, I am driven by a deep curiosity about how technology — especially AI and data science — can transform business decision-making. I believe that the most impactful professionals of the next decade will sit at the intersection of technical capability and business strategy.</p>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);">My long-term goal is to build a career as a <strong style="color:var(--white)">Data Scientist or Business Analyst</strong> in the Australian fintech or financial services sector, leveraging my dual-track education to bridge the gap between raw data and strategic business outcomes.</p>
+        </div>
+        <div>
+          <div class="section-label-row"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">My Values</span></div>
+          <h2 class="sec-title">What Drives <span class="hl">Me</span></h2>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-icon">🔍</div>
+            <div class="card-title">Curiosity-Driven Learning</div>
+            <div class="card-body">I approach every new concept with genuine curiosity — whether that's a financial model, a machine learning algorithm, or a business ethics framework.</div>
+          </div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-icon">🌉</div>
+            <div class="card-title">Bridging Tech & Business</div>
+            <div class="card-body">I believe data science only creates real value when its outputs are translated into clear business decisions. My dual degree is designed exactly for this.</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🌏</div>
+            <div class="card-title">Impact-Oriented</div>
+            <div class="card-body">I want my work to matter — whether improving a business process, solving a real customer problem, or contributing to ethical AI development in Australia.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- Areas of Interest -->
+      <div class="section-label-row fade-in"><span class="sec-num">03</span><div class="sec-line"></div><span class="sec-tag">Areas of Interest</span></div>
+      <h2 class="sec-title fade-in">What I'm <span class="hl">Passionate About</span></h2>
+      <div class="g4 fade-in" style="margin-bottom:0;">
+        <div class="card"><span class="card-icon">🤖</span><div class="card-title">Artificial Intelligence</div><div class="card-body">Generative AI, large language models, and the responsible deployment of AI in business settings.</div></div>
+        <div class="card"><span class="card-icon">📊</span><div class="card-title">Data Visualisation</div><div class="card-body">Transforming complex datasets into compelling visual stories using Python, Plotly, and Tableau.</div></div>
+        <div class="card"><span class="card-icon">💹</span><div class="card-title">Fintech & Finance</div><div class="card-body">BNPL, algorithmic trading, fraud detection, and the digitisation of Australian financial services.</div></div>
+        <div class="card"><span class="card-icon">📈</span><div class="card-title">Business Analytics</div><div class="card-body">Using data to drive strategic business decisions — KPI design, forecasting, and performance dashboards.</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">Adam <span>Pham</span></div>
+    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026</div>
+  </div>
 </div>
 
-<!-- Hidden page shells for nav switching -->
-<div class="page" id="page-about"></div>
-<div class="page" id="page-skills"></div>
-<div class="page" id="page-career"></div>
-<div class="page" id="page-training"></div>
-<div class="page" id="page-reflection"></div>
-<div class="page" id="page-contact"></div>
+<!-- ════════════════════════════════════════
+     PAGE: PROFESSIONAL COMPETENCIES
+════════════════════════════════════════ -->
+<div class="page" id="page-skills">
+  <div class="photo-hero">
+    <div class="photo-hero-bg skills-photo-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+      <div class="eyebrow au au-1"><div class="eyebrow-dot"></div><div class="eyebrow-pill">Skills & Capabilities</div></div>
+      <h1 class="page-title au au-2">Professional <span class="outline">Competencies</span></h1>
+      <p class="page-subtitle au au-3">Technical skills, business capabilities, and the professional tools I am actively building toward a career in Data Science and Business Analysis.</p>
+      <div class="btn-row au au-4">
+        <button class="btn-p" onclick="showPage('career')">Career Roadmap →</button>
+        <button class="btn-o" onclick="showPage('about')">About Me</button>
+      </div>
+    </div>
+  </div>
 
-     SCRIPTS
-════════════════════════════════════════════════ -->
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap">
+
+      <div class="g2 fade-in" style="margin-bottom:48px; align-items:start;">
+
+        <!-- Technical Skills -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">Technical Skills</span></div>
+          <h2 class="sec-title">Data <span class="hl">& Code</span></h2>
+          <div id="skill-bars">
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Python (NumPy, Pandas, Matplotlib)</span><span class="skill-pct">72%</span></div><div class="skill-track"><div class="skill-fill" data-w="72"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Data Visualisation (Plotly, Seaborn)</span><span class="skill-pct">65%</span></div><div class="skill-track"><div class="skill-fill" data-w="65"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">SQL & Database Concepts</span><span class="skill-pct">55%</span></div><div class="skill-track"><div class="skill-fill" data-w="55"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Machine Learning (Scikit-learn)</span><span class="skill-pct">40%</span></div><div class="skill-track"><div class="skill-fill" data-w="40"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Power BI / Tableau</span><span class="skill-pct">45%</span></div><div class="skill-track"><div class="skill-fill" data-w="45"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">HTML / CSS</span><span class="skill-pct">60%</span></div><div class="skill-track"><div class="skill-fill" data-w="60"></div></div></div>
+          </div>
+        </div>
+
+        <!-- Business Skills -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">Business Skills</span></div>
+          <h2 class="sec-title">Strategy <span class="hl">& Analysis</span></h2>
+          <div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Financial Analysis & Modelling</span><span class="skill-pct">68%</span></div><div class="skill-track"><div class="skill-fill" data-w="68"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Business Requirements Analysis</span><span class="skill-pct">58%</span></div><div class="skill-track"><div class="skill-fill" data-w="58"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Digital Disruption & Innovation</span><span class="skill-pct">70%</span></div><div class="skill-track"><div class="skill-fill" data-w="70"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Academic Research & Writing</span><span class="skill-pct">75%</span></div><div class="skill-track"><div class="skill-fill" data-w="75"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Ethical Reasoning & Frameworks</span><span class="skill-pct">70%</span></div><div class="skill-track"><div class="skill-fill" data-w="70"></div></div></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-top"><span class="skill-name">Time Value of Money / WACC / CAPM</span><span class="skill-pct">60%</span></div><div class="skill-track"><div class="skill-fill" data-w="60"></div></div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- Tools & Certifications -->
+      <div class="section-label-row fade-in"><span class="sec-num">03</span><div class="sec-line"></div><span class="sec-tag">Tools & Certifications</span></div>
+      <h2 class="sec-title fade-in">Currently <span class="hl">Building</span></h2>
+      <div class="g4 fade-in">
+        <div class="card"><span class="card-icon">🐍</span><div class="card-title">Python Data Stack</div><div class="card-body">NumPy, Pandas, Matplotlib, Seaborn, Plotly, Scikit-learn</div></div>
+        <div class="card"><span class="card-icon">📊</span><div class="card-title">Power BI / Tableau</div><div class="card-body">Pursuing Microsoft PL-300 Power BI certification in 2026</div></div>
+        <div class="card"><span class="card-icon">☁️</span><div class="card-title">AWS Cloud</div><div class="card-body">AWS Cloud Practitioner — planned certification for mid-2026</div></div>
+        <div class="card"><span class="card-icon">🎖</span><div class="card-title">Google Data Analytics</div><div class="card-body">Google Data Analytics Professional Certificate via Coursera</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">Adam <span>Pham</span></div>
+    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: CAREER JOURNEY
+════════════════════════════════════════ -->
+<div class="page" id="page-career">
+  <div class="photo-hero">
+    <div class="photo-hero-bg career-photo-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+      <div class="eyebrow au au-1"><div class="eyebrow-dot"></div><div class="eyebrow-pill">Academic & Professional Path</div></div>
+      <h1 class="page-title au au-2">Career <span class="outline">Journey</span></h1>
+      <p class="page-subtitle au au-3">My academic milestones, self-directed learning, and a 12-month structured roadmap toward becoming a Data Scientist or Business Analyst in Australia.</p>
+      <div class="btn-row au au-4">
+        <button class="btn-p" onclick="showPage('reflection')">View Reflection →</button>
+        <button class="btn-o" onclick="showPage('skills')">My Skills</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap">
+
+      <div class="g2 fade-in" style="align-items:start; margin-bottom:48px;">
+
+        <!-- Timeline -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">Academic Timeline</span></div>
+          <h2 class="sec-title">My <span class="hl">Journey So Far</span></h2>
+          <div class="timeline" style="margin-top:24px;">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year">2024</div>
+              <div class="tl-title">Enrolled — University of Southern Queensland</div>
+              <div class="tl-place">Double Degree: BBus / BIT</div>
+              <div class="tl-desc">Began studying the intersection of business and information technology, choosing Finance and AI & Data Science as dual majors.</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year">2024–2025</div>
+              <div class="tl-title">Python Programming — Basic to Advanced</div>
+              <div class="tl-place">Self-directed · Online Course</div>
+              <div class="tl-desc">Completed a comprehensive Python course covering data types, functions, OOP, and file handling. Built a Pygame music playlist application as a capstone project.</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year">2025</div>
+              <div class="tl-title">Corporate Financial Management</div>
+              <div class="tl-place">Self-study · Vietnamese-language textbook (UNETI)</div>
+              <div class="tl-desc">Studied time value of money, capital management, WACC, CAPM, and Vietnamese financial planning methods including the AFN formula and percentage-of-sales method.</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-year">2026 T2</div>
+              <div class="tl-title">CIS1000 — Digital Disruption</div>
+              <div class="tl-place">University of Southern Queensland</div>
+              <div class="tl-desc">Analysing digital transformation through case studies, exploring AI tools in business, and building this ePortfolio as Assessment 1.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">12-Month Roadmap</span></div>
+          <h2 class="sec-title">Next <span class="hl">12 Months</span></h2>
+          <div class="step" style="margin-top:24px;">
+            <div class="step-num">Q3</div>
+            <div><div class="step-title">Python Data Libraries</div><div class="step-desc">Master Pandas, NumPy, and Matplotlib for data wrangling and analysis. Build 2–3 portfolio projects on real datasets.</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num">Q3</div>
+            <div><div class="step-title">SQL Fundamentals</div><div class="step-desc">Learn relational database querying, joins, aggregations and window functions. Practice with PostgreSQL and SQLite.</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num">Q4</div>
+            <div><div class="step-title">Google Data Analytics Certificate</div><div class="step-desc">Complete the Google Data Analytics Professional Certificate via Coursera to formalise foundational analytics skills.</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num">Q4</div>
+            <div><div class="step-title">Power BI / Tableau Dashboards</div><div class="step-desc">Build interactive dashboards. Target Microsoft PL-300 Power BI certification before end of 2026.</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num">Q1 '27</div>
+            <div><div class="step-title">Machine Learning with Scikit-learn</div><div class="step-desc">Supervised learning, model evaluation, feature engineering. Apply to financial prediction and classification problems.</div></div>
+          </div>
+          <div class="step">
+            <div class="step-num">Q2 '27</div>
+            <div><div class="step-title">First Industry Role Application</div><div class="step-desc">Target graduate Data Analyst or Business Analyst roles in Australian fintech and financial services firms.</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- Target roles -->
+      <div class="section-label-row fade-in"><span class="sec-num">03</span><div class="sec-line"></div><span class="sec-tag">Target Career Paths</span></div>
+      <h2 class="sec-title fade-in">Where I'm <span class="hl">Heading</span></h2>
+      <div class="g3 fade-in">
+        <div class="card"><span class="card-icon">🔬</span><div class="card-title">Data Scientist</div><div class="card-body">Building predictive models and ML pipelines in financial services, fintech, or tech-forward organisations in the Australian market.</div></div>
+        <div class="card"><span class="card-icon">📋</span><div class="card-title">Business Analyst</div><div class="card-body">Translating business needs into data requirements, designing KPI frameworks, and delivering insights to executive stakeholders.</div></div>
+        <div class="card"><span class="card-icon">💹</span><div class="card-title">Fintech Analyst</div><div class="card-body">Applying data science and financial knowledge to BNPL, fraud detection, dynamic pricing, and digital lending platforms.</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">Adam <span>Pham</span></div>
+    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: REFLECTION (CIS1000 A1)
+════════════════════════════════════════ -->
+<div class="page" id="page-reflection">
+  <div class="photo-hero">
+    <div class="photo-hero-bg reflection-photo-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+      <div class="eyebrow au au-1"><div class="eyebrow-dot"></div><div class="eyebrow-pill">CIS1000 Digital Disruption · Assessment 1 · Due 26 June 2026</div></div>
+      <h1 class="page-title au au-2">Digital <span class="outline">Disruption</span><br><span class="gold">Reflection</span></h1>
+      <p class="page-subtitle au au-3">AI-Powered Inventory Management at GreenSprout Foods Pty Ltd — a structured analysis across professional, societal, and ethical dimensions.</p>
+      <div class="btn-row au au-4">
+        <a href="#ref-section" class="btn-o">References</a>
+      </div>
+      <div class="stat-band au au-5">
+        <div><div class="stat-num"><span>100</span></div><div class="stat-label">Total Marks</div></div>
+        <div><div class="stat-num"><span>600</span></div><div class="stat-label">Word Count</div></div>
+        <div><div class="stat-num"><span>5</span></div><div class="stat-label">Sections</div></div>
+        <div><div class="stat-num"><span>9</span></div><div class="stat-label">References</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap">
+
+      <!-- AI Statement -->
+      <div class="ai-box fade-in">
+        <div class="ai-badge">⚠ AI Use Statement — Level 2: AI Enhanced Research & Drafting</div>
+        <p class="ai-text">For this assessment I used <strong style="color:var(--gold)">Claude (Anthropic)</strong> and <strong style="color:var(--gold)">Grammarly</strong> to support initial research and planning. Claude assisted in generating ideas, understanding the GreenSprout Foods case study, and creating draft outlines. Grammarly improved grammar, clarity and sentence flow. I wrote the actual assessment content in my own words. All AI-generated content and prompts have been retained as required. This reflection represents my own analysis and critical thinking. <em style="color:rgba(255,255,255,.4)">(~100 words)</em></p>
+      </div>
+
+      <!-- S1: Business Problem -->
+      <div class="section-label-row fade-in"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">10 marks</span></div>
+      <h2 class="sec-title fade-in">Business Problem <span class="hl">Identification</span></h2>
+      <div class="g2 fade-in" style="margin-bottom:40px;align-items:start;">
+        <div>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:16px;">GreenSprout Foods Pty Ltd, a Toowoomba-based food manufacturer with ~$4.5M annual revenue, faced a critical operational problem during its Audit Committee meeting: <strong style="color:var(--white)">inventory management inefficiency driven by unpredictable demand fluctuations</strong> (GreenSprout Foods, 2026).</p>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);">Operating across supermarkets, health food stores, farmers' markets, and an online store simultaneously creates fragmented, hard-to-track demand signals. Without a unified view, GreenSprout cannot distinguish seasonal peaks from structural growth — leading directly to the bottlenecks, overstocking, and revenue losses identified in the quarterly performance review.</p>
+        </div>
+        <div>
+          <div class="callout"><p class="callout-text">"Production bottlenecks during peak demand periods, seasonal inventory fluctuations, and expanding online sales all point to a fundamental inability to predict and respond to real-time consumer demand."</p></div>
+          <div class="g3" style="margin-top:16px;">
+            <div class="card"><span class="card-icon">📦</span><div class="card-title" style="font-size:13px;">Bottlenecks</div><div class="card-body" style="font-size:12px;">Manufacturing can't scale fast enough for peak periods</div></div>
+            <div class="card"><span class="card-icon">📊</span><div class="card-title" style="font-size:13px;">Swings</div><div class="card-body" style="font-size:12px;">Seasonal over- and under-stocking wastes perishables</div></div>
+            <div class="card"><span class="card-icon">🛒</span><div class="card-title" style="font-size:13px;">Multi-Channel</div><div class="card-body" style="font-size:12px;">Five channels, no unified demand signal</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- S2: Digital Tool -->
+      <div class="section-label-row fade-in"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">20 marks</span></div>
+      <h2 class="sec-title fade-in">Digital Tool <span class="hl">Selected</span></h2>
+      <div class="g2 fade-in" style="margin-bottom:32px;align-items:start;">
+        <div>
+          <div style="background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.2);border-radius:10px;padding:20px 24px;margin-bottom:16px;">
+            <div style="font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:8px;">Selected Tool</div>
+            <div style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:4px;">AI-Powered Inventory Management Platform</div>
+            <div style="font-size:12px;color:var(--muted);">e.g. Cin7 Omni, DEAR Inventory, Oracle NetSuite AI Module</div>
+          </div>
+          <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);">These platforms use machine learning algorithms to analyse historical sales data, seasonal trends, and real-time signals to automatically predict demand and manage stock replenishment (Gartner, 2024; Chopra & Meindl, 2022).</p>
+        </div>
+        <div class="g2" style="gap:12px;">
+          <div class="card"><div style="font-size:18px;margin-bottom:8px;">📈</div><div class="card-title" style="font-size:13px;">Demand Forecasting</div><div class="card-body" style="font-size:12px;">ML models predict future stock from historical patterns</div></div>
+          <div class="card"><div style="font-size:18px;margin-bottom:8px;">🔄</div><div class="card-title" style="font-size:13px;">Auto Reorder</div><div class="card-body" style="font-size:12px;">Triggers purchase orders at AI-set thresholds</div></div>
+          <div class="card"><div style="font-size:18px;margin-bottom:8px;">🏪</div><div class="card-title" style="font-size:13px;">Multi-Channel</div><div class="card-body" style="font-size:12px;">Unified inventory across all sales channels</div></div>
+          <div class="card"><div style="font-size:18px;margin-bottom:8px;">📊</div><div class="card-title" style="font-size:13px;">Live Analytics</div><div class="card-body" style="font-size:12px;">Real-time dashboards and revenue projections</div></div>
+        </div>
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- S3: Problem Solving -->
+      <div class="section-label-row fade-in"><span class="sec-num">03</span><div class="sec-line"></div><span class="sec-tag">15 marks</span></div>
+      <h2 class="sec-title fade-in">How It <span class="hl">Solves the Problem</span></h2>
+      <div class="fade-in" style="margin-bottom:40px;">
+        <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:28px;">The platform replaces reactive stock management with proactive, data-driven forecasting. Implementation follows three key phases:</p>
+        <div class="step"><div class="step-num">01</div><div><div class="step-title">Data Integration Across All Channels</div><div class="step-desc">Consolidates sales data from all GreenSprout channels into one system, eliminating information silos and enabling a complete real-time operational picture (Chopra & Meindl, 2022).</div></div></div>
+        <div class="step"><div class="step-num">02</div><div><div class="step-title">Predictive Seasonal Modelling</div><div class="step-desc">ML models trained on GreenSprout's historical patterns predict demand spikes weeks in advance, allowing proactive production and ingredient scheduling — eliminating reactive bottlenecks.</div></div></div>
+        <div class="step"><div class="step-num">03</div><div><div class="step-title">Automated Replenishment & Alert Systems</div><div class="step-desc">When forecast models detect critical stock thresholds, the system auto-generates supplier orders and alerts the operations team — preventing both stockouts and overproduction.</div></div></div>
+      </div>
+
+      <div class="div" style="margin-bottom:48px;"></div>
+
+      <!-- S4: Implications -->
+      <div class="section-label-row fade-in"><span class="sec-num">04</span><div class="sec-line"></div><span class="sec-tag">30 marks</span></div>
+      <h2 class="sec-title fade-in">Professional, Societal & <span class="hl">Ethical Implications</span></h2>
+      <div class="fade-in">
+        <div class="lens-tabs">
+          <button class="lens-tab active" onclick="showLens('pro',this)">💼 Professional</button>
+          <button class="lens-tab" onclick="showLens('soc',this)">🌏 Societal</button>
+          <button class="lens-tab" onclick="showLens('eth',this)">⚖️ Ethical</button>
+        </div>
+        <div class="lens-panel active" id="lens-pro">
+          <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;">
+            <div class="g2" style="align-items:start;gap:28px;">
+              <div>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;">AI inventory management shifts staff roles from manual stock counting to higher-value analytical work — interpreting forecasts, managing suppliers, and optimising production scheduling (Schwab, 2017).</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;">Decision-making becomes data-driven, reducing costly human errors during peak periods. However, new competencies in AI literacy and data interpretation are required — demanding investment in professional development (World Economic Forum, 2023).</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);">This transition must be managed carefully to avoid employee disengagement or resistance to the change in working practices.</p>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Role Evolution</div><div class="card-body">Manual tasks give way to analytical oversight — a professionally enriching shift that increases job value and complexity.</div></div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Upskilling Needed</div><div class="card-body">AI literacy, data interpretation, and system management become essential new competencies for all operations staff.</div></div>
+                <div class="card"><div class="card-title" style="color:var(--teal);">Better Decisions</div><div class="card-body">AI-augmented decisions are faster, more consistent, and grounded in real data — reducing risk and improving outcomes.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lens-panel" id="lens-soc">
+          <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;">
+            <div class="g2" style="align-items:start;gap:28px;">
+              <div>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;">Better inventory management reduces food waste — Australia wastes ~7.6 million tonnes of food annually (FIAL, 2021). Accurate forecasting directly reduces overproduction and perishable spoilage.</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;">For customers, improved inventory means consistent product availability and faster online fulfilment. However, smaller retail partners may lack infrastructure to integrate with AI supply chain tools (Brynjolfsson & McAfee, 2014).</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);">Consumer data privacy is also a societal concern — purchase data used in forecasting models must comply with the <em>Privacy Act 1988</em> (Cth) to maintain public trust.</p>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Food Waste Reduction</div><div class="card-body">Precise forecasting eliminates systematic overproduction of perishables, reducing GreenSprout's environmental footprint.</div></div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Digital Equity</div><div class="card-body">Smaller regional retail partners may be excluded if supply chain digitisation creates barriers for businesses without advanced systems.</div></div>
+                <div class="card"><div class="card-title" style="color:var(--teal);">Consumer Trust</div><div class="card-body">Transparent data practices and consistent availability build long-term brand loyalty in the health food market.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lens-panel" id="lens-eth">
+          <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;">
+            <div class="g2" style="align-items:start;gap:28px;">
+              <div>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;"><strong style="color:rgba(255,255,255,.9)">Algorithmic transparency</strong> is a core concern — AI forecasting models are often "black boxes" whose decision logic is not easily interpretable (Diakopoulos, 2016). If a model errs, managers must be able to understand why.</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);margin-bottom:14px;"><strong style="color:rgba(255,255,255,.9)">Data bias</strong> presents another risk. If training data excludes Toowoomba's unique regional market characteristics, the model may systematically under-stock locally popular products while over-prioritising national trends.</p>
+                <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.75);"><strong style="color:rgba(255,255,255,.9)">Responsible data use</strong> requires that customer purchase histories are collected with consent, stored securely, and never used beyond stated purposes (OAIC, 2023).</p>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Transparency</div><div class="card-body">AI must be explainable — dashboards should surface the key factors driving each forecast so managers can audit the reasoning.</div></div>
+                <div class="card" style="margin-bottom:12px;"><div class="card-title" style="color:var(--teal);">Bias Risk</div><div class="card-body">Models must be trained on regionally representative data reflecting Toowoomba's unique market, not only national patterns.</div></div>
+                <div class="card"><div class="card-title" style="color:var(--teal);">Data Consent</div><div class="card-body">Consumer data requires opt-in consent and full compliance with the Privacy Act 1988 (Cth) and Australian Privacy Principles.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="div" style="margin:48px 0;"></div>
+
+      <!-- S5: Risk Mitigation -->
+      <div class="section-label-row fade-in"><span class="sec-num">05</span><div class="sec-line"></div><span class="sec-tag">15 marks</span></div>
+      <h2 class="sec-title fade-in">Risk <span class="hl">Mitigation Strategies</span></h2>
+      <div class="fade-in">
+        <div class="risk-item"><div class="risk-icon">🎓</div><div><div class="risk-title">Staff Training & Phased Change Management</div><div class="risk-desc">Structured training in AI literacy and data interpretation. Phased rollout starting with one product category limits operational risk during transition (Schwab, 2017).</div></div></div>
+        <div class="risk-item"><div class="risk-icon">🔍</div><div><div class="risk-title">Explainable AI & Human Approval Gates</div><div class="risk-desc">Require explainable AI outputs — dashboards showing forecast-driving factors. Managers must approve all AI-generated orders above a financial threshold before execution.</div></div></div>
+        <div class="risk-item"><div class="risk-icon">🔒</div><div><div class="risk-title">Data Protection & Privacy Compliance</div><div class="risk-desc">Data governance policy aligned with Privacy Act 1988 (Cth). Privacy Impact Assessment before deployment. All customer data anonymised and consent-based (OAIC, 2023).</div></div></div>
+        <div class="risk-item"><div class="risk-icon">🤝</div><div><div class="risk-title">Inclusive Design for Partner Retailers</div><div class="risk-desc">Provide smaller retail partners with simple integration pathways or manual alternatives, preserving GreenSprout's regional distribution network.</div></div></div>
+        <div class="risk-item"><div class="risk-icon">🔄</div><div><div class="risk-title">Quarterly Model Auditing</div><div class="risk-desc">Quarterly audits comparing predictions vs. actual outcomes. Retrain with updated local Toowoomba market data to continuously reduce regional bias.</div></div></div>
+      </div>
+
+      <div class="div" style="margin:48px 0;"></div>
+
+      <!-- References -->
+      <div id="ref-section" class="section-label-row fade-in"><span class="sec-num">06</span><div class="sec-line"></div><span class="sec-tag">Harvard AGPS</span></div>
+      <h2 class="sec-title fade-in">References</h2>
+      <div class="fade-in" style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;">
+        <div class="ref-item">Brynjolfsson, E & McAfee, A 2014, <em>The second machine age</em>, W.W. Norton & Company, New York.</div>
+        <div class="ref-item">Chopra, S & Meindl, P 2022, <em>Supply chain management: strategy, planning, and operation</em>, 7th edn, Pearson, Hoboken, NJ.</div>
+        <div class="ref-item">Diakopoulos, N 2016, 'Accountability in algorithmic decision making', <em>Communications of the ACM</em>, vol. 59, no. 2, pp. 56–62.</div>
+        <div class="ref-item">Food Innovation Australia Ltd (FIAL) 2021, <em>National food waste strategy feasibility study</em>, FIAL, Sydney.</div>
+        <div class="ref-item">Gartner 2024, <em>Magic quadrant for cloud ERP for service-centric enterprises</em>, Gartner Research, Stamford.</div>
+        <div class="ref-item">GreenSprout Foods 2026, <em>CIS1000 case study: GreenSprout Foods Pty Ltd</em>, University of Southern Queensland, Toowoomba.</div>
+        <div class="ref-item">Office of the Australian Information Commissioner (OAIC) 2023, <em>Privacy Act 1988: Australian Privacy Principles guidelines</em>, OAIC, Canberra.</div>
+        <div class="ref-item">Schwab, K 2017, <em>The fourth industrial revolution</em>, Currency Press, New York.</div>
+        <div class="ref-item">World Economic Forum 2023, <em>The future of jobs report 2023</em>, WEF, Geneva.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">Adam <span>Pham</span></div>
+    <div class="footer-info">u1186826 · CIS1000 Digital Disruption · Assessment 1 · Due 26 June 2026</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: CONTACT ME
+════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="photo-hero">
+    <div class="photo-hero-bg contact-photo-bg"></div>
+    <div class="photo-hero-overlay"></div>
+    <div class="photo-hero-content">
+      <div class="eyebrow au au-1"><div class="eyebrow-dot"></div><div class="eyebrow-pill">Get In Touch</div></div>
+      <h1 class="page-title au au-2">Contact <span class="outline">Me</span></h1>
+      <p class="page-subtitle au au-3">Open to academic collaboration, professional networking, and conversations about data science, AI, and fintech in the Australian market.</p>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="section-wrap">
+
+      <div class="g2 fade-in" style="align-items:start;gap:48px;">
+
+        <!-- Contact Info -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">01</span><div class="sec-line"></div><span class="sec-tag">Find Me</span></div>
+          <h2 class="sec-title">Let's <span class="hl">Connect</span></h2>
+          <p style="font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:28px;">I'm always interested in connecting with other students, academics, and professionals working at the intersection of data science and business. Feel free to reach out.</p>
+
+          <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:24px;">
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🎓</div>
+              <div><div class="contact-info-label">University</div><div class="contact-info-val">University of Southern Queensland</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🆔</div>
+              <div><div class="contact-info-label">Student ID</div><div class="contact-info-val">u1186826</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📍</div>
+              <div><div class="contact-info-label">Location</div><div class="contact-info-val">Brisbane / Queensland, Australia</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🌐</div>
+              <div><div class="contact-info-label">Portfolio</div><div class="contact-info-val">adampam21.wordpress.com</div></div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📧</div>
+              <div><div class="contact-info-label">Email</div><div class="contact-info-val">phamhoangquoc.adam@gmail.com</div></div>
+            </div>
+          </div>
+
+          <div class="g2" style="gap:12px;">
+            <div class="card"><span class="card-icon">🤝</span><div class="card-title">Open to Collaborate</div><div class="card-body">Academic projects, study groups, or data science challenges.</div></div>
+            <div class="card"><span class="card-icon">💡</span><div class="card-title">Open to Mentorship</div><div class="card-body">Learning from professionals in DS, BA, and fintech roles.</div></div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div>
+          <div class="section-label-row"><span class="sec-num">02</span><div class="sec-line"></div><span class="sec-tag">Send a Message</span></div>
+          <h2 class="sec-title">Drop Me a <span class="hl">Message</span></h2>
+          <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;margin-top:16px;">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input class="form-input" type="text" placeholder="e.g. Jane Smith">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <input class="form-input" type="text" placeholder="Academic collaboration / Networking / Other">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Tell me what's on your mind..."></textarea>
+            </div>
+            <button class="btn-p" style="width:100%;justify-content:center;display:block;text-align:center;" onclick="handleForm()">Send Message →</button>
+            <div id="form-success" style="display:none;margin-top:14px;background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#2dd4bf;text-align:center;">✓ Thanks! Message noted — contact me directly at adampam21.wordpress.com</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">Adam <span>Pham</span></div>
+    <div class="footer-info">u1186826 · University of Southern Queensland · T2 2026<br>adampam21.wordpress.com</div>
+  </div>
+</div>
+
+<!-- ════════ SCRIPTS ════════ -->
 <script>
-// ═══════════════════════════════════════════
-// CANVAS — Enhanced particle network with mouse interaction
-// ═══════════════════════════════════════════
+// ── CANVAS ──
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
-let mouse = { x: innerWidth/2, y: innerHeight/2 };
-
-function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-const pts = [];
-for(let i=0; i<75; i++) pts.push({
-  x: Math.random() * innerWidth,
-  y: Math.random() * innerHeight,
-  vx: (Math.random()-.5) * .28,
-  vy: (Math.random()-.5) * .28,
-  r: Math.random() * 1.6 + .3,
-  a: Math.random() * .5 + .1,
-  oa: Math.random() * .5 + .1
-});
-
-function drawCanvas(){
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Mouse repulsion
-  pts.forEach(p => {
-    const dx = p.x - mouse.x, dy = p.y - mouse.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    if(dist < 120){
-      const force = (120 - dist) / 120 * .8;
-      p.vx += (dx/dist) * force * .08;
-      p.vy += (dy/dist) * force * .08;
-    }
-    // Speed limit
-    const speed = Math.sqrt(p.vx*p.vx + p.vy*p.vy);
-    if(speed > .8){ p.vx *= .8/speed; p.vy *= .8/speed; }
-
-    p.x += p.vx; p.y += p.vy;
-    if(p.x < 0) p.x = canvas.width;
-    if(p.x > canvas.width) p.x = 0;
-    if(p.y < 0) p.y = canvas.height;
-    if(p.y > canvas.height) p.y = 0;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(144,224,239,${p.a})`;
-    ctx.fill();
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+const pts=[];
+for(let i=0;i<60;i++) pts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.4+.3,a:Math.random()*.45+.1});
+function drawBg(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let g=ctx.createRadialGradient(canvas.width*.25,canvas.height*.3,0,canvas.width*.25,canvas.height*.3,canvas.width*.65);
+  g.addColorStop(0,'rgba(27,45,66,0.55)');g.addColorStop(1,'rgba(13,27,42,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+  let g2=ctx.createRadialGradient(canvas.width*.8,canvas.height*.75,0,canvas.width*.8,canvas.height*.75,canvas.width*.5);
+  g2.addColorStop(0,'rgba(0,90,130,0.16)');g2.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g2;ctx.fillRect(0,0,canvas.width,canvas.height);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+    if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(144,224,239,${p.a})`;ctx.fill();
   });
-
-  // Lines between particles
-  pts.forEach((a, i) => pts.slice(i+1).forEach(b => {
-    const d = Math.hypot(a.x-b.x, a.y-b.y);
-    if(d < 130){
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = `rgba(0,198,224,${.09*(1-d/130)})`;
-      ctx.lineWidth = .5;
-      ctx.stroke();
-    }
+  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+    const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<110){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=`rgba(0,180,216,${.07*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke();}
   }));
-
-  // Mouse glow
-  const mg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 160);
-  mg.addColorStop(0, 'rgba(0,198,224,0.04)');
-  mg.addColorStop(1, 'rgba(0,198,224,0)');
-  ctx.fillStyle = mg;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  requestAnimationFrame(drawCanvas);
+  requestAnimationFrame(drawBg);
 }
-drawCanvas();
+drawBg();
 
-// ═══════════════════════════════════════════
-// FLOATING GEOMETRIC SHAPES
-// ═══════════════════════════════════════════
-function spawnShape(){
-  const el = document.createElement('div');
-  el.className = 'geo-shape';
-  const size = Math.random() * 40 + 12;
-  const left = Math.random() * 100;
-  const dur = Math.random() * 20 + 15;
-  const delay = Math.random() * 8;
-  el.style.cssText = `width:${size}px;height:${size}px;left:${left}%;bottom:-60px;
-    border-radius:${Math.random()>.5?'50%':'4px'};
-    animation-duration:${dur}s;animation-delay:${delay}s;
-    border-color:rgba(0,198,224,${Math.random()*.08+.03});
-    transform:rotate(${Math.random()*360}deg);`;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), (dur + delay) * 1000);
-}
-for(let i=0; i<10; i++) setTimeout(spawnShape, i * 1500);
-setInterval(spawnShape, 3000);
-
-// ═══════════════════════════════════════════
-// SCROLL PROGRESS
-// ═══════════════════════════════════════════
+// ── PROGRESS ──
 window.addEventListener('scroll',()=>{
-  const s = window.scrollY, t = document.body.scrollHeight - innerHeight;
-  document.getElementById('prog').style.width = (t > 0 ? s/t*100 : 0) + '%';
-  document.getElementById('navbar').classList.toggle('scrolled', s > 40);
+  const s=window.scrollY,t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(s/t*100)+'%';
 });
 
-// ═══════════════════════════════════════════
-// PAGE NAVIGATION
-// ═══════════════════════════════════════════
+// ── PAGE NAVIGATION ──
 function showPage(id){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const page = document.getElementById('page-'+id);
-  page.classList.add('active', 'page-enter');
-  setTimeout(() => page.classList.remove('page-enter'), 600);
-
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  const navEl = document.getElementById('nav-'+id);
-  if(navEl) navEl.classList.add('active');
-
-  window.scrollTo({top:0, behavior:'smooth'});
-
-  // Re-trigger animations
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // re-trigger fade-ins on new page
   setTimeout(()=>{
-    // Hero animations
-    page.querySelectorAll('.au').forEach(el=>{
-      el.style.opacity='0';
-      el.style.animationName='none';
-      setTimeout(()=>{
-        el.style.animationName='fadeUp';
-        el.style.opacity='';
-      }, 50);
+    document.querySelectorAll('#page-'+id+' .fade-in').forEach(el=>{
+      el.classList.remove('visible');
+      void el.offsetWidth;
     });
-    // Fade-ins
-    page.querySelectorAll('.fade-in').forEach(el => el.classList.remove('visible'));
     triggerFades();
     triggerSkillBars();
-    // Counters on home
-    if(id === 'home') triggerCounters();
-  }, 80);
+  },100);
 }
 
-// ═══════════════════════════════════════════
-// FADE IN ON SCROLL
-// ═══════════════════════════════════════════
+// ── FADE IN ON SCROLL ──
 function triggerFades(){
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        setTimeout(()=>e.target.classList.add('visible'), 60);
-        obs.unobserve(e.target);
-      }
-    });
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
   },{threshold:.1});
-  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => obs.observe(el));
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>obs.observe(el));
 }
 triggerFades();
 
-// ═══════════════════════════════════════════
-// SKILL BARS — animate on scroll
-// ═══════════════════════════════════════════
+// ── SKILL BARS ──
 function triggerSkillBars(){
-  const obs = new IntersectionObserver(entries=>{
+  const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         e.target.querySelectorAll('.skill-fill').forEach(bar=>{
-          bar.style.width = bar.dataset.w + '%';
+          bar.style.width=bar.dataset.w+'%';
         });
         obs.unobserve(e.target);
       }
     });
-  },{threshold:.15});
-  document.querySelectorAll('#skill-bars, .skill-wrap').forEach(el => obs.observe(el));
+  },{threshold:.2});
+  document.querySelectorAll('#skill-bars,.skill-bar-wrap').forEach(el=>obs.observe(el));
 }
 triggerSkillBars();
 
-// ═══════════════════════════════════════════
-// LENS TABS
-// ═══════════════════════════════════════════
-function showLens(name, btn){
-  btn.parentElement.querySelectorAll('.lens-tab').forEach(t => t.classList.remove('active'));
+// ── LENS TABS ──
+function showLens(name,btn){
+  const parent=btn.closest('.fade-in')||btn.parentElement.parentElement;
+  btn.parentElement.querySelectorAll('.lens-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  btn.closest('.fade-in').querySelectorAll('.lens-panel').forEach(p => p.classList.remove('active'));
+  const panels=btn.parentElement.parentElement.querySelectorAll('.lens-panel');
+  panels.forEach(p=>p.classList.remove('active'));
   document.getElementById('lens-'+name).classList.add('active');
 }
 
-// ═══════════════════════════════════════════
-// TYPED TEXT EFFECT
-// ═══════════════════════════════════════════
-const phrases = [
-  'Aspiring Data Scientist',
-  'Business Analyst in Training',
-  'Fintech Enthusiast',
-  'AI & Data Science Major',
-  'Finance Major @ USQ',
-  'Python Developer',
-  'Ready to Take on Challenges'
-];
-let pi = 0, ci = 0, deleting = false;
-const typedEl = document.getElementById('typed-output');
-
-function typeEffect(){
-  if(!typedEl) return;
-  const current = phrases[pi];
-  if(!deleting){
-    typedEl.textContent = current.slice(0, ++ci);
-    if(ci === current.length){ deleting = true; setTimeout(typeEffect, 1800); return; }
-    setTimeout(typeEffect, 60);
-  } else {
-    typedEl.textContent = current.slice(0, --ci);
-    if(ci === 0){ deleting = false; pi = (pi+1) % phrases.length; setTimeout(typeEffect, 300); return; }
-    setTimeout(typeEffect, 32);
-  }
+// ── CONTACT FORM ──
+function handleForm(){
+  document.getElementById('form-success').style.display='block';
 }
-setTimeout(typeEffect, 1200);
 
-// ═══════════════════════════════════════════
-// COUNTER ANIMATION
-// ═══════════════════════════════════════════
-const counterTargets = {c1:18, c2:40, c3:8, c4:12};
-function animateCounter(id, target, duration=1800){
-  const el = document.getElementById(id);
-  if(!el) return;
-  let start = null;
-  function step(ts){
-    if(!start) start = ts;
-    const prog = Math.min((ts-start)/duration, 1);
-    el.textContent = Math.floor(prog * target);
-    if(prog < 1) requestAnimationFrame(step);
-    else el.textContent = target + '+';
-  }
-  requestAnimationFrame(step);
-}
-function triggerCounters(){
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        Object.entries(counterTargets).forEach(([id,t]) => animateCounter(id,t));
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold:.4});
-  const band = document.querySelector('#page-home .band-dark');
-  if(band) obs.observe(band);
-}
-triggerCounters();
-
-// ═══════════════════════════════════════════
-// NAV AU INIT
-// ═══════════════════════════════════════════
-document.querySelectorAll('.au').forEach(el => {
-  el.style.animationPlayState = 'paused';
+// ── NAV AU RESET ──
+document.querySelectorAll('.au').forEach(el=>{
+  el.style.animationPlayState='paused';
 });
 setTimeout(()=>{
-  document.querySelectorAll('.page.active .au').forEach(el => {
-    el.style.animationPlayState = 'running';
+  document.querySelectorAll('.page.active .au').forEach(el=>{
+    el.style.animationPlayState='running';
   });
-}, 100);
+},50);
 </script>
 </body>
 </html>
